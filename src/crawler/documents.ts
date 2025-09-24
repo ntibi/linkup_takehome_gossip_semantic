@@ -20,7 +20,7 @@ export async function fetchDocuments(db: Db) {
 		// ideally we would stream only new sites
 		//   using metadata from the DB
 		//   or a message queue
-		const exists = await documents.findOne({ site_id: site._id });
+		const exists = await documents.findOne({ site_uuid: site.uuid });
 		if (exists) {
 			continue;
 		}
@@ -39,7 +39,7 @@ export async function fetchDocuments(db: Db) {
 			continue;
 		}
 		await documents.insertOne({
-			site_id: site._id,
+			site_uuid: site.uuid,
 			title: content.title,
 			content: content.textContent,
 			excerpt: content.excerpt,

@@ -2,6 +2,7 @@ import Sitemapper from "sitemapper";
 import { config, type SourceConfig } from "./config.js";
 import * as path from "path";
 import type { Db } from "mongodb";
+import { v4 as uuidv4 } from 'uuid';
 
 async function map(source: SourceConfig) {
 	// TODO
@@ -57,6 +58,7 @@ export async function mapSources(db: Db) {
 			// - check for duplicates (maybe the package i use already does that)
 			// - add more metadata (ie: lastmod, changefreq, priority), and use them to prioritize fetching
 			await db_sites.insertOne({
+				uuid: uuidv4(),
 				created_at: new Date(),
 				updated_at: new Date(),
 				source: source.name,

@@ -17,11 +17,11 @@ async function main() {
 	let vectorDb = await connectVectorDb();
 
 	console.log("starting sitemap mapping");
-	//await mapSources(db);
+	await mapSources(db);
 	console.log("updated sitemaps mapping");
 
 	console.log("starting to fetch documents");
-	//await fetchDocuments(db);
+	await fetchDocuments(db);
 	console.log("fetched documents");
 
 	await generateEmbeddings(db, vectorDb);
