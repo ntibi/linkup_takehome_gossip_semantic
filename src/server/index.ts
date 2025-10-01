@@ -55,6 +55,8 @@ app.get("/search", async (req, res) => {
 		results: results.points.map(({ id, score }) => {
 			let dbDoc = docsMap.get(id);
 			let doc = dbDoc ? { title: dbDoc.title, excerpt: dbDoc.excerpt } : { title: "Unknown", excerpt: "No excerpt available" };
+			// TODO
+			// generate excerpt from document content if not available in the db (and persist it) (not here tho, in an async worker)
 
 			return {
 				id,
