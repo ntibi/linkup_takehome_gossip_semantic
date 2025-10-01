@@ -4,5 +4,5 @@ npm run dev # starts the server on localhost:4000
 
 the projected was developped and tested using node v22.20.0
 
-no tests were written
+test coverage is minimal
 error handling is minimal
