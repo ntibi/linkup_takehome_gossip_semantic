@@ -14,7 +14,7 @@ export async function connect() {
 		});
 	} catch (e: unknown) {
 		// 409 = collection already exists
-		if (e.status != 409) {
+		if ((e as { status?: number }).status !== 409) {
 			throw e;
 		}
 	}
