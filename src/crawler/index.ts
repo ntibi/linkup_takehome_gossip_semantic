@@ -24,7 +24,9 @@ async function main() {
 	await fetchDocuments(db);
 	console.log("fetched documents");
 
+	console.log("starting to generate embeddings");
 	await generateEmbeddings(db, vectorDb);
+	console.log("generated embeddings");
 }
 
 main();
