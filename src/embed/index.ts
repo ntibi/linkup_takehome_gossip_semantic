@@ -69,7 +69,6 @@ export async function generateEmbeddings(db: Db, vectorDB: QdrantClient) {
 		// with a flag in the DB
 		// or via subscribing to a message queue
 		if ((await vectorDB.retrieve("documents", { ids: [document.site_uuid] })).length > 0) {
-			let a = await vectorDB.retrieve("documents", { ids: [document.site_uuid] });
 			continue;
 		}
 
