@@ -6,6 +6,7 @@
     "dev": "node --loader ts-node/esm src/server/index.ts",
     "crawl": "node --loader ts-node/esm src/crawler/index.ts",
     "test": "jest",
+    "lint": "eslint .",
     "build": "tsc"
   },
   "type": "module",
