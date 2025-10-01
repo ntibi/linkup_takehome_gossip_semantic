@@ -42,7 +42,7 @@ export async function fetchDocuments(db: Db) {
 		const content = new Readability(dom.window.document).parse();
 
 		if (!content) {
-			// TODO persist logs (see comment in mapper.ts)
+			// TODO error handling / logging (see comment in mapper.ts)
 			console.warn(`could not extract content from ${site.url}`);
 			continue;
 		}

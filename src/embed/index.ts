@@ -65,6 +65,14 @@ export async function generateEmbeddings(db: Db, vectorDB: QdrantClient) {
 	let documents = db.collection("documents");
 
 	for await (const document of documents.find()) {
+		// TODO ideally we would stream only new documents
+		// with a flag in the DB
+		// or via subscribing to a message queue
+		if ((await vectorDB.retrieve("documents", { ids: [document.site_uuid] })).length > 0) {
+			let a = await vectorDB.retrieve("documents", { ids: [document.site_uuid] });
+			continue;
+		}
+
 		let vector = await generateEmbedding(embedder, document.content);
 		if (vector.length) {
 			console.log(`generated embedding for document ${document.site_uuid}`);
