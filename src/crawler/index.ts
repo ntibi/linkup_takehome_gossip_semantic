@@ -31,6 +31,8 @@ async function main() {
 	console.log("starting to generate embeddings");
 	await generateEmbeddings(db, vectorDb);
 	console.log("generated embeddings");
+
+	process.exit(0);
 }
 
 main();
