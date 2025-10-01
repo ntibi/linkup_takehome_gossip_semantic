@@ -25,7 +25,15 @@ export async function fetchDocuments(db: Db) {
 			continue;
 		}
 
-		let res = await axios.get(site.url);
+		let res;
+		try {
+			res = await axios.get(site.url);
+		} catch (e) {
+			// TODO error handling / logging (see comment in mapper.ts)
+			console.warn(`could not fetch ${site.url}: ${e}`);
+			continue;
+		}
+
 		// https://github.com/mozilla/readability?tab=readme-ov-file#nodejs-usage
 
 		// TODO went the easy way here
