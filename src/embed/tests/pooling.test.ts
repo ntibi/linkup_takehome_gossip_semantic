@@ -1,7 +1,9 @@
-function sum(a: number, b: number): number {
-	return a + b;
-}
+import { tokenize } from "../utils.js";
 
-test('adds 1 + 2 to equal 3', () => {
-	expect(sum(1, 2)).toBe(3);
+describe('tokenize', () => {
+	it('splits by whitespace and removes empty tokens', () => {
+		expect(tokenize('   ')).toEqual([]);
+		expect(tokenize('aa bb cc   dd')).toEqual(['aa', 'bb', 'cc', 'dd']);
+		expect(tokenize('hello  ')).toEqual(['hello']);
+	});
 });

@@ -4,7 +4,6 @@ export function tokenize(input: string): string[] {
 	return input.split(/\s+/).filter(token => token.length > 0);
 }
 
-// TODO test this
 export function chunkTokens(tokens: string[], max_embedding: number, overlap: number): string[][] {
 	const chunks: string[][] = [];
 	let start = 0;
