@@ -1,6 +1,8 @@
 import express from "express";
 import { connect as connectVectorDb } from "../vector/index.js";
 import { connect as connectDb } from "../db/index.js";
+import { generateEmbedding, getPipeline } from "../embed/index.js";
+import { ObjectId } from "mongodb";
 
 const app = express();
 const port = 4000;
@@ -22,10 +24,39 @@ app.get("/search", async (req, res) => {
 	// TODO
 	// would be cleaner with query params validation (like with express-validator)
 	// I didnt do it here because we only have one endpoint with one param
-	const query = req.query.q;
+	const query = String(req.query.q);
 
-	res.send("OK");
+	const embedder = await getPipeline();
+	let documents = db.collection("documents");
+	let vector = await generateEmbedding(embedder, query);
 
+	let results = await vectorDb.query("documents", {
+		query: vector,
+		// TODO
+		// limit could be a query param
+		limit: 5,
+	});
+
+	// TODO
+	// log query, number of results, db response time
+	// for monitoring and analytics
+
+	let docs_to_fetch = results.points.map(p => p.id);
+	let docs = await documents.find({ site_uuid: { $in: docs_to_fetch } }).toArray();
+	// for O(1) lookup when building the response
+	let docsMap = new Map(docs.map(d => [d.site_uuid, d]));
+
+	res.send({
+		found: results.points.length,
+		results: results.points.map(({ id, score }) => {
+			let dbDoc = docsMap.get(id);
+			let doc = dbDoc ? { title: dbDoc.title, excerpt: dbDoc.excerpt } : { title: "Unknown", excerpt: "No excerpt available" };
+
+			return {
+				id, score, doc: doc,
+			};
+		}),
+	});
 });
 
 app.listen(port, () => {
