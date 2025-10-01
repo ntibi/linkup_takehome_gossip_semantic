@@ -20,8 +20,12 @@ async function main() {
 	await mapSources(db);
 	console.log("updated sitemaps mapping");
 
+	// i added a max document indexing limit for dev purposes
+	// mapping sources takes a few seconds
+	// generating embeddings is fast
+	// but fetching hundreds of thousands documents takes a while, and it's not needed for a proof of concept
 	console.log("starting to fetch documents");
-	await fetchDocuments(db);
+	await fetchDocuments(db, 100);
 	console.log("fetched documents");
 
 	console.log("starting to generate embeddings");

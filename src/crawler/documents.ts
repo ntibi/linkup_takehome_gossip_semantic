@@ -3,9 +3,10 @@ import type { Db } from "mongodb";
 import axios from "axios";
 import { JSDOM, VirtualConsole } from "jsdom";
 
-export async function fetchDocuments(db: Db) {
+export async function fetchDocuments(db: Db, max: number) {
 	let sites = db.collection("sites");
 	let documents = db.collection("documents");
+	let indexed = 0;
 
 	const cursor = sites.find();
 
@@ -15,6 +16,10 @@ export async function fetchDocuments(db: Db) {
 	virtualConsole.on("error", () => { });
 
 	for await (const site of cursor) {
+		if (indexed >= max) {
+			break;
+		}
+
 		// TODO
 		// this is not a great design, we have to do 1 request per site
 		// ideally we would stream only new sites
@@ -54,5 +59,6 @@ export async function fetchDocuments(db: Db) {
 			lang: content.lang,
 		});
 		console.log(`fetched and persisted document from ${site.source}:${site.url}`);
+		indexed += 1;
 	}
 }
