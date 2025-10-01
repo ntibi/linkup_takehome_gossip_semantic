@@ -1,9 +1,0 @@
-docker compose up # starts the data sources
-npm run crawl # starts the crawler, indexes the data, gets 100 pages, embed them
-npm run dev # starts the server on localhost:4000
-curl 'localhost:4000/search?q="nouveau%20film"' # to try the search endpoint (add " | jq ." for formatting)
-
-the projected was developped and tested using node v22.20.0
-
-test coverage is minimal
-error handling is minimal
