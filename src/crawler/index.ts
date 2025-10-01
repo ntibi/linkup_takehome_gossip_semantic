@@ -13,8 +13,8 @@ async function main() {
 	// TODO
 	// id rather use dependency injection than importing the db connection directly in each module and passing it around
 	// I like NestJS for that, but it's a lot of boilerplate for a project this size
-	let db = await connectDb();
-	let vectorDb = await connectVectorDb();
+	const db = await connectDb();
+	const vectorDb = await connectVectorDb();
 
 	console.log("starting sitemap mapping");
 	await mapSources(db);

@@ -29,10 +29,10 @@ async function map(source: SourceConfig) {
 // if rate limiting is still an issue, assign different outbound IPs to different workers
 // if speed is an issue, add more workers
 export async function mapSources(db: Db) {
-	let db_sites = db.collection("sites");
+	const db_sites = db.collection("sites");
 
 	for (const source of config.sources) {
-		let found = await db_sites.countDocuments({ source: source.name });
+		const found = await db_sites.countDocuments({ source: source.name });
 
 		// TODO more granularity, we could want to partially crawl a source according to last crawl date, lastmod, ...etc
 		if (found && found > 0) {
@@ -40,7 +40,7 @@ export async function mapSources(db: Db) {
 			continue;
 		}
 
-		let { errors, sites } = await map(source);
+		const { errors, sites } = await map(source);
 		console.log(`mapped ${source.name}: ${sites?.length} sites, ${errors?.length} errors`);
 		// TODO
 		// handle errors

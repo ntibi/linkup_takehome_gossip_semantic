@@ -19,7 +19,7 @@ export function chunkTokens(tokens: string[], max_embedding: number, overlap: nu
 }
 
 export function poolEmbeddings(embeddings: Tensor): number[] {
-	let [n_embeddings, n_tokens, size] = embeddings.dims;
+	const [n_embeddings, n_tokens, size] = embeddings.dims;
 	const merged = new Array(size).fill(0);
 
 	if (!n_embeddings || !n_tokens || !size) {

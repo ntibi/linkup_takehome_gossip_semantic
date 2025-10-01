@@ -21,8 +21,8 @@ app.use(express.json());
 // add a few retries and log them
 // log and exit if we cant connect after a few retries
 // inform our orchestration system (health checks, liveness probes, exit codes, ...)
-let vectorDb = await connectVectorDb();
-let db = await connectDb();
+const vectorDb = await connectVectorDb();
+const db = await connectDb();
 
 app.get("/search", async (req, res) => {
 	// TODO
@@ -31,10 +31,10 @@ app.get("/search", async (req, res) => {
 	const query = String(req.query.q);
 
 	const embedder = await getPipeline();
-	let documents = db.collection("documents");
-	let vector = await generateEmbedding(embedder, query);
+	const documents = db.collection("documents");
+	const vector = await generateEmbedding(embedder, query);
 
-	let results = await vectorDb.query("documents", {
+	const results = await vectorDb.query("documents", {
 		query: vector,
 		// TODO
 		// limit could be a query param
@@ -45,16 +45,16 @@ app.get("/search", async (req, res) => {
 	// log query, number of results, db response time
 	// for monitoring and analytics
 
-	let docs_to_fetch = results.points.map(p => p.id);
-	let docs = await documents.find({ site_uuid: { $in: docs_to_fetch } }).toArray();
+	const docs_to_fetch = results.points.map(p => p.id);
+	const docs = await documents.find({ site_uuid: { $in: docs_to_fetch } }).toArray();
 	// for O(1) lookup when building the response
-	let docsMap = new Map(docs.map(d => [d.site_uuid, d]));
+	const docsMap = new Map(docs.map(d => [d.site_uuid, d]));
 
 	res.send({
 		found: results.points.length,
 		results: results.points.map(({ id, score }) => {
-			let dbDoc = docsMap.get(id);
-			let doc = dbDoc ? { title: dbDoc.title, excerpt: dbDoc.excerpt } : { title: "Unknown", excerpt: "No excerpt available" };
+			const dbDoc = docsMap.get(id);
+			const doc = dbDoc ? { title: dbDoc.title, excerpt: dbDoc.excerpt } : { title: "Unknown", excerpt: "No excerpt available" };
 			// TODO
 			// generate excerpt from document content if not available in the db (and persist it) (not here tho, in an async worker)
 

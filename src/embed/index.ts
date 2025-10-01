@@ -9,8 +9,8 @@ const OVERLAP = 200;
 
 
 export async function generateEmbedding(embedder: FeatureExtractionPipeline, input: string): Promise<number[]> {
-	let tokenized = chunkTokens(tokenize(input), MAX_EMBEDDING_SIZE, OVERLAP).map(chunk => chunk.join(" "));
-	let embeddings = await embedder(tokenized);
+	const tokenized = chunkTokens(tokenize(input), MAX_EMBEDDING_SIZE, OVERLAP).map(chunk => chunk.join(" "));
+	const embeddings = await embedder(tokenized);
 	return poolEmbeddings(embeddings);
 }
 
@@ -20,7 +20,7 @@ export async function getPipeline() {
 
 export async function generateEmbeddings(db: Db, vectorDB: QdrantClient) {
 	const embedder = await getPipeline();
-	let documents = db.collection("documents");
+	const documents = db.collection("documents");
 
 	for await (const document of documents.find()) {
 		// TODO ideally we would stream only new documents
@@ -30,7 +30,7 @@ export async function generateEmbeddings(db: Db, vectorDB: QdrantClient) {
 			continue;
 		}
 
-		let vector = await generateEmbedding(embedder, document.content);
+		const vector = await generateEmbedding(embedder, document.content);
 		if (vector.length) {
 			console.log(`generated embedding for document ${document.site_uuid}`);
 			await vectorDB.upsert("documents", {

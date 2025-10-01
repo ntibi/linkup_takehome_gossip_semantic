@@ -4,8 +4,8 @@ import axios from "axios";
 import { JSDOM, VirtualConsole } from "jsdom";
 
 export async function fetchDocuments(db: Db, max: number) {
-	let sites = db.collection("sites");
-	let documents = db.collection("documents");
+	const sites = db.collection("sites");
+	const documents = db.collection("documents");
 	let indexed = 0;
 
 	const cursor = sites.find();
