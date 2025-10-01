@@ -12,7 +12,7 @@ export async function connect() {
 				distance: "Cosine",
 			}
 		});
-	} catch (e: any) {
+	} catch (e: unknown) {
 		// 409 = collection already exists
 		if (e.status != 409) {
 			throw e;

@@ -1,4 +1,4 @@
-import { FeatureExtractionPipeline, pipeline, Tensor, AutoTokenizer } from "@huggingface/transformers";
+import { FeatureExtractionPipeline, pipeline, } from "@huggingface/transformers";
 import type { QdrantClient } from "@qdrant/js-client-rest";
 import type { Db } from "mongodb";
 import { poolEmbeddings, chunkTokens, tokenize } from "./utils.js";
