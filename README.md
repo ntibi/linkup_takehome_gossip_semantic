@@ -31,3 +31,9 @@ This project was developed and tested using **Node.js v22.20.0**.
     ```
 
 ---
+
+## Notes
+
+all `TODO` comments are left for the reviewer
+
+they are notes on what came to my mind when writing this code about how I would handle this in a bigger project
